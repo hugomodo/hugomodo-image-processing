@@ -1,1 +1,23 @@
 # uploadsDir = "uploads"
+
+# TODO: The below are not yet supported:
+#
+# This could be a comma-delimited string as below, or an array of values.
+# Importantly, theme breakpoints need to be known so this will be per-theme configuration.
+# sizes = "(min-width: 800px) 50vw, 100vw"
+#
+# These should also be configurable per-instance of imgproc.
+# minSize could be useful should we add additional lower values, for instance for small avatars.
+# maxSize will prevent the addition of unused images, reducing repo bloat.
+# Below we have the sensible defaults for most use cases.
+# minSize = 320
+# maxSize = 1920
+#
+# The below config options will allow the user to specify that image resources should also be
+# resized for social and search graph data.
+# Bear in mind that we can't specify the context manually at the content level for these,
+# so they will be dependent on the value for uploadsDir or individual theme overrides.
+# resizeOpengraph = false
+# resizeSchema = false
+# resizeTwitterCards = false
+# resizeStructuredData = false
