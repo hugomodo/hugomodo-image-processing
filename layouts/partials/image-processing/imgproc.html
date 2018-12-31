@@ -4,6 +4,9 @@
 {{ $width := .width }}
 {{ $height := .height }}
 
+
+{{/* Context needs worked for our hack to work out. */}}
+
 {{ with .context.Resources.GetMatch $src }}
   <img
     srcset="
@@ -21,5 +24,5 @@
     {{- with $width }} width="{{ . }}"{{ end -}}
     {{- with $height }} height="{{ . }}"{{ end -}}/>
 {{ else }}
-  {{ errorf "could not find image" }}
+  {{ errorf "could not find image %q" $src }}
 {{ end }}

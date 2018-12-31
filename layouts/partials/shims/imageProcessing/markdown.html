@@ -1,0 +1,13 @@
+{{/* TODO: Currently works for a /uploads directory. Generalise it! */}}
+
+{{ $images := .RawContent | findRE "[!][[].*?[]][(]/uploads/.*?[)]" | uniq }}
+
+{{ .Scratch.Set "content" .RawContent }}
+
+{{ range $images }}
+  {{ $image := . | replaceRE "[!][[].*?[]][(]/uploads/(.*?)[)]" "$1" }}
+  {{ $regex := printf "[!][[].*?[]][(]/uploads/%s[)]" $image }}
+  {{ $.Scratch.Set "content" ($.Scratch.Get "content" | replaceRE $regex (partial "image-processing/imgproc.html" (dict "context" ($.Site.GetPage "uploads") "src" $image))) }}
+{{ end }}
+
+{{ .Scratch.Get "content" | markdownify }}
