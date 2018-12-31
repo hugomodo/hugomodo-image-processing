@@ -1,0 +1,39 @@
+{{ $class := .class }}
+{{ $link := .link }}
+{{ $target := .target }}
+{{ $rel := .rel }}
+{{ $src := .src }}
+{{ $alt := .alt }}
+{{ $caption := .caption }}
+{{ $width := .width }}
+{{ $height := .height }}
+{{ $title := .title }}
+{{ $attr := .attr }}
+{{ $attrlink := .attrlink }}
+
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
+  {{- if $link -}}
+    <a href="{{ $link }}"{{ with $target }} target="{{ . }}"{{ end }}{{ with $rel }} rel="{{ . }}"{{ end }}>
+  {{- end }}
+
+  {{ partial "image-processing/imgproc.html" (dict "context" .context "src" $src "alt" $alt "caption" $caption "width" $width "height" $height) }}
+
+  {{- if $link }}</a>{{ end -}}
+
+  {{- if or (or ($title) ($caption)) ($attr) -}}
+    <figcaption>
+      {{ with ($title) -}}
+        <h4>{{ . }}</h4>
+      {{- end -}}
+
+      {{- if or ($caption) ($attr) -}}<p>
+        {{- $caption | markdownify -}}
+        {{- with $attrlink }}
+          <a href="{{ . }}">
+        {{- end -}}
+        {{- $attr | markdownify -}}
+        {{- if $attrlink }}</a>{{ end }}</p>
+      {{- end }}
+    </figcaption>
+  {{- end }}
+</figure>

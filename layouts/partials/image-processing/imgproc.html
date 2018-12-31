@@ -1,0 +1,25 @@
+{{ $src := .src }}
+{{ $alt := .alt }}
+{{ $caption := .caption }}
+{{ $width := .width }}
+{{ $height := .height }}
+
+{{ with .context.Resources.GetMatch $src }}
+  <img
+    srcset="
+      {{ (.Resize "320x").RelPermalink }} 320w,
+      {{ (.Resize "640x").RelPermalink }} 640w,
+      {{ (.Resize "768x").RelPermalink }} 768w,
+      {{ (.Resize "1024x").RelPermalink }} 1024w,
+      {{ (.Resize "1366x").RelPermalink }} 1366w,
+      {{ (.Resize "1600x").RelPermalink }} 1600w,
+      {{ (.Resize "1920x").RelPermalink }} 1920w"
+    src="{{ (.Resize "1600x").RelPermalink }}"
+    {{- if or ($alt) ($caption) }}
+      alt="{{ with $alt }}{{ . }}{{ else }}{{ $caption | markdownify| plainify }}{{ end }}"
+    {{- end -}}
+    {{- with $width }} width="{{ . }}"{{ end -}}
+    {{- with $height }} height="{{ . }}"{{ end -}}/>
+{{ else }}
+  {{ errorf "could not find image" }}
+{{ end }}

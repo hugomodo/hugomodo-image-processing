@@ -1,1 +1,8 @@
-{{/* TODO */}}
+{{ $page := $.Page }}
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" }}
+{{ $caption := .Get "caption" }}
+{{ $width := .Get "width" }}
+{{ $height := .Get "height" }}
+
+{{ partial "image-processing/imgproc.html" (dict "context" $page "src" $src "alt" $alt "caption" $caption "width" $width "height" $height) }}

@@ -1,1 +1,15 @@
-{{/* TODO */}}
+{{ $page := $.Page }}
+{{ $class := .Get "class" }}
+{{ $link := .Get "link" }}
+{{ $target := .Get "target" }}
+{{ $rel := .Get "rel" }}
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" }}
+{{ $caption := .Get "caption" }}
+{{ $width := .Get "width" }}
+{{ $height := .Get "height" }}
+{{ $title := .Get "title" }}
+{{ $attr := .Get "attr" }}
+{{ $attrlink := .Get "attrlink" }}
+
+{{ partial "image-processing/figproc.html" (dict "context" $page "src" $src "alt" $alt "caption" $caption "width" $width "height" $height) }}
