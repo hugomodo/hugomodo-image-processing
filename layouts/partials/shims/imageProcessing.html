@@ -1,0 +1,7 @@
+{{ if in (slice "md" "markdown" "mdown" "mmark") .context.File.Ext }}
+  {{ partial "shims/imageProcessing/markdown.html" (dict "context" .context "content" .content) }}
+{{ else }}
+  {{ if in (slice "html" "htm") .context.File.Ext }}
+    {{ partial "shims/imageProcessing/html.html" (dict "context" .context "content" .content) }}
+  {{ end }}
+{{ end }}

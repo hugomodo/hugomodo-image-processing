@@ -1,12 +1,18 @@
 <section>
   {{ if $.Site.Data.config.imageProcessing.contentShim }}
-    {{ if in (slice "md" "markdown" "mdown" "mmark") .File.Ext }}
-      {{ partial "shims/imageProcessing/markdown.html" (dict "context" . "content" .RawContent) }}
-    {{ else }}
-      {{ if in (slice "html" "htm") .File.Ext }}
-        {{ partial "shims/imageProcessing/html.html" (dict "context" . "content" .RawContent) }}
-      {{ end }}
+    {{ range $.Site.Data.private }}
+      {{ $.Scratch.Add "shims" .shims }}
     {{ end }}
+
+    {{ $shims := uniq ($.Scratch.Get "shims") }}
+
+    {{ .Scratch.Set "content" .RawContent }}
+
+    {{ range $shims }}
+      {{ $.Scratch.Set "content" (partial . (dict "context" $.Page "content" ($.Scratch.Get "content")) | htmlUnescape) }}
+    {{ end }}
+
+    {{ .Scratch.Get "content" | markdownify }}
   {{ else }}
     {{ .Content }}
   {{ end }}
