@@ -1,4 +1,11 @@
-{{ with .Get "context" }}
+{{ $src := .Get "src" }}
+
+{{ $split := split $src "/" }}
+{{ $img := index $split (sub (len $split) 1) }}
+
+{{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+
+{{ with $contextStr }}
   {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
 {{ else }}
   {{ with $.Site.Data.config.imageProcessing.uploadsDir }}
@@ -9,10 +16,10 @@
 {{ end }}
 
 {{ $context := $.Scratch.Get "context" }}
-{{ $src := .Get "src" }}
+
 {{ $alt := .Get "alt" }}
 {{ $caption := .Get "caption" }}
 {{ $width := .Get "width" }}
 {{ $height := .Get "height" }}
 
-{{ partial "image-processing/imgproc.html" (dict "context" $context "src" $src "alt" $alt "caption" $caption "width" $width "height" $height) }}
+{{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img "alt" $alt "caption" $caption "width" $width "height" $height) }}

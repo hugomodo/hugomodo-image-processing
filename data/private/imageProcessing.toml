@@ -1,3 +1,5 @@
 shims = [
-  "shims/imageProcessing.html"
+  "shims/imageProcessing.html",
+  "shims/imageProcessing/imgproc.html",
+  "shims/imageProcessing/figproc.html"
 ]

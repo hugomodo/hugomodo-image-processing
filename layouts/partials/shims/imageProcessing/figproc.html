@@ -1,0 +1,54 @@
+{{ $mainContext := .context }}
+
+{{ $figprocs := .content | findRE "{{< figproc .+? >}}" | uniq }}
+
+{{ .context.Scratch.Set "content" .content }}
+
+{{ range $figprocs }}
+
+  {{ $src := . | replaceRE "{{< figproc.*? src=\"(.+?)\" .*?>}}" "$1" }}
+
+  {{ $split := split $src "/" }}
+  {{ $img := index $split (sub (len $split) 1) }}
+
+  {{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+
+  {{ with $contextStr }}
+    {{ $mainContext.Scratch.Set "context" ($mainContext.Site.GetPage .) }}
+  {{ else }}
+    {{ with $mainContext.Site.Data.config.imageProcessing.uploadsDir }}
+      {{ $mainContext.Scratch.Set "context" ($mainContext.Site.GetPage .) }}
+    {{ else }}
+      {{ $mainContext.Scratch.Set "context" $mainContext }}
+    {{ end }}
+  {{ end }}
+
+  {{ $context := $mainContext.Scratch.Get "context" }}
+
+  {{/*
+    NOTE: TrimPrefix discards the result entirely if it matches original string (i.e. when match not found)
+          We otherwise end up with the whole shortcode being set to variable as a string.
+  */}}
+  {{ $title := . | replaceRE "{{< figproc.*? (?:title=\"(.+?)\")? .*?>}}" "$1" | strings.TrimPrefix . }}
+  {{ $caption := . | replaceRE "{{< figproc.*? caption=\"(.+?)\" .*?>}}" "$1" | strings.TrimPrefix . }}
+
+  {{/* TODO: Extend to full set:
+  {{ $class := .Get "class" }}
+  {{ $link := .Get "link" }}
+  {{ $target := .Get "target" }}
+  {{ $rel := .Get "rel" }}
+  {{ $alt := .Get "alt" }}
+  {{ $caption := .Get "caption" }}
+  {{ $width := .Get "width" }}
+  {{ $height := .Get "height" }}
+  {{ $title := .Get "title" }}
+  {{ $attr := .Get "attr" }}
+  {{ $attrlink := .Get "attrlink" }}
+  */}}
+
+  {{ $regex := printf "{{< figproc.*? src=\"%s\" .*?>}}" $src }}
+
+  {{ $mainContext.Scratch.Set "content" ($mainContext.Scratch.Get "content" | replaceRE $regex (partial "image-processing/figproc.html" (dict "context" $context "src" $img "title" $title "caption" $caption))) }}
+{{ end }}
+
+{{ .context.Scratch.Get "content" }}

@@ -1,0 +1,35 @@
+{{ $mainContext := .context }}
+
+{{ $imgprocs := .content | findRE "{{< imgproc .+? >}}" | uniq }}
+
+{{ .context.Scratch.Set "content" .content }}
+
+{{ range $imgprocs }}
+
+  {{ $src := . | replaceRE "{{< imgproc.*? src=\"(.+?)\" .*?>}}" "$1" | strings.TrimPrefix . }}
+
+  {{ $split := split $src "/" }}
+  {{ $img := index $split (sub (len $split) 1) }}
+
+  {{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+
+  {{ with $contextStr }}
+    {{ $mainContext.Scratch.Set "context" ($mainContext.Site.GetPage .) }}
+  {{ else }}
+    {{ with $mainContext.Site.Data.config.imageProcessing.uploadsDir }}
+      {{ $mainContext.Scratch.Set "context" ($mainContext.Site.GetPage .) }}
+    {{ else }}
+      {{ $mainContext.Scratch.Set "context" $mainContext }}
+    {{ end }}
+  {{ end }}
+
+  {{ $context := $mainContext.Scratch.Get "context" }}
+
+  {{ $title := . | replaceRE "{{< imgproc.*? title=\"(.+?)\" .*?>}}" "$1" | strings.TrimPrefix . }}
+
+  {{ $regex := printf "{{< imgproc.*? src=\"%s\" .*?>}}" $src }}
+
+  {{ $mainContext.Scratch.Set "content" ($mainContext.Scratch.Get "content" | replaceRE $regex (partial "image-processing/imgproc.html" (dict "context" $context "src" $img "title" $title))) }}
+{{ end }}
+
+{{ .context.Scratch.Get "content" }}
