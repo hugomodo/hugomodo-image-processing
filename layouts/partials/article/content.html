@@ -1,10 +1,10 @@
 <section>
   {{ if $.Site.Data.config.imageProcessing.contentShim }}
     {{ if in (slice "md" "markdown" "mdown" "mmark") .File.Ext }}
-      {{ partial "shims/imageProcessing/markdown.html" . }}
+      {{ partial "shims/imageProcessing/markdown.html" (dict "context" . "content" .RawContent) }}
     {{ else }}
       {{ if in (slice "html" "htm") .File.Ext }}
-        {{ partial "shims/imageProcessing/html.html" . }}
+        {{ partial "shims/imageProcessing/html.html" (dict "context" . "content" .RawContent) }}
       {{ end }}
     {{ end }}
   {{ else }}
