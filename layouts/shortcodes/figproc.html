@@ -1,7 +1,7 @@
 {{ with .Get "context" }}
   {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
 {{ else }}
-  {{ with $.Site.Data.imageProcessing.config.uploadsDir }}
+  {{ with $.Site.Data.config.imageProcessing.uploadsDir }}
     {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
   {{ else }}
     {{ $.Scratch.Set "context" $.Page }}
