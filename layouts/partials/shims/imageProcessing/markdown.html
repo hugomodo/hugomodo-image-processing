@@ -1,4 +1,8 @@
-{{/* TODO: Currently works for a /uploads directory. Generalise it! */}}
+{{/*
+  TODO: Currently works for a /uploads directory. Generalise it!
+  Note when generalising that only relative sources should be shimmed.
+  ...which probably means that the src should start with a /
+*/}}
 
 {{ $images := .content | findRE "[!][[].*?[]][(]/uploads/.*?[)]" | uniq }}
 
