@@ -5,7 +5,7 @@
 # Set resizeMeta to true if you'd like image processing applied to your site meta tags.
 # This includes: opengraph, schema, twitter cards and structured data
 
-resizeMeta = false
+# resizeMeta = false
 
 # TODO: The below are not yet supported:
 #
