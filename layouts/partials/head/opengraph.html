@@ -1,4 +1,4 @@
-{{ if not .Site.Data.config.imageProcessing.resizeOpengraph }}
+{{ if not .Site.Data.config.imageProcessing.resizeMeta }}
   {{ template "_internal/opengraph.html" . }}
 {{ else }}
   <meta property="og:title" content="{{ .Title }}" />
