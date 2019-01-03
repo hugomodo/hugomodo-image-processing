@@ -1,0 +1,3 @@
+{{- with .Params.images }}{{ range first 6 . }}
+<meta property="og:image" content="{{ . | absURL }}" />
+{{ end }}{{ end }}

@@ -1,5 +1,11 @@
 # uploadsDir = "uploads"
+
 # contentShim = false
+
+# Set resizeMeta to true if you'd like image processing applied to your site meta tags.
+# This includes: opengraph, schema, twitter cards and structured data
+
+resizeMeta = false
 
 # TODO: The below are not yet supported:
 #
@@ -13,12 +19,3 @@
 # Below we have the sensible defaults for most use cases.
 # minSize = 320
 # maxSize = 1920
-#
-# The below config options will allow the user to specify that image resources should also be
-# resized for social and search graph data.
-# Bear in mind that we can't specify the context manually at the content level for these,
-# so they will be dependent on the value for uploadsDir or individual theme overrides.
-# resizeOpengraph = false
-# resizeSchema = false
-# resizeTwitterCards = false
-# resizeStructuredData = false
