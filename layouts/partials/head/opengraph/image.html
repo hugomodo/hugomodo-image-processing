@@ -5,31 +5,40 @@
     {{ $split := split $src "/" }}
     {{ $img := index $split (sub (len $split) 1) }}
 
-    {{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+    {{ $pathArr := split $img "." }}
+    {{ $pathLen := len $pathArr }}
+    {{ $ext := index $pathArr (sub $pathLen 1) }}
 
-    {{ with $contextStr }}
-      {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
-    {{ else }}
-      {{ with $.Site.Data.config.imageProcessing.uploadsDir }}
+    {{ if ne $ext "svg" -}}
+      {{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+
+      {{ with $contextStr }}
         {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
       {{ else }}
-        {{ $.Scratch.Set "context" $ }}
+        {{ with $.Site.Data.config.imageProcessing.uploadsDir }}
+          {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
+        {{ else }}
+          {{ $.Scratch.Set "context" $ }}
+        {{ end }}
       {{ end }}
-    {{ end }}
 
-    {{ $context := $.Scratch.Get "context" }}
+      {{ $context := $.Scratch.Get "context" }}
 
-    {{ with $context.Resources.GetMatch $img }}
-      {{ $image := .Fill "1200x630" }}
-      <meta property="og:image" content="{{ $image.Permalink }}" />
-      <meta property="og:image:width" content="{{ $image.Width }}" />
-      <meta property="og:image:height" content="{{ $image.Height }}" />
-    {{ else }}
-      <meta property="og:image" content="{{ . | absURL }}" />
+      {{ with $context.Resources.GetMatch $img }}
+        {{ $image := .Fill "1200x630" }}
+        <meta property="og:image" content="{{ $image.Permalink }}" />
+        <meta property="og:image:width" content="{{ $image.Width }}" />
+        <meta property="og:image:height" content="{{ $image.Height }}" />
+      {{ else }}
+        <meta property="og:image" content="{{ . | absURL }}" />
+      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
 
-
-{{/* TODO: SVG handling. */}}
-{{/* TODO: Images smaller than 1200w. */}}
+{{/*
+  TODO: Images smaller than 1200w.
+  TODO: Fallback to site images if:
+        - .Params.images empty
+        - .Params.images only SVGs
+*/}}
