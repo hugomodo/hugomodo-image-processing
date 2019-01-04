@@ -1,3 +1,5 @@
+{{ $context := .context }}
+
 {{ $src := .src }}
 {{ $alt := .alt }}
 {{ $caption := .caption }}
@@ -8,16 +10,16 @@
 {{ $pathLen := len $pathArr }}
 {{ $ext := index $pathArr (sub $pathLen 1) }}
 
-{{ if eq $ext "svg" }}
+{{ if eq $ext "svg" -}}
   <img
-    src="{{ printf "/%s%s" .context.Dir $src }}"
+    src="{{ printf "/%s%s" $context.Dir $src }}"
     {{- if or ($alt) ($caption) }}
       alt="{{ with $alt }}{{ . }}{{ else }}{{ $caption | markdownify| plainify }}{{ end }}"
     {{- end -}}
     {{- with $width }} width="{{ . }}"{{ end -}}
     {{- with $height }} height="{{ . }}"{{ end -}}/>
-{{ else }}
-  {{ with .context.Resources.GetMatch $src }}
+{{ else -}}
+  {{ with $context.Resources.GetMatch $src -}}
     <img
       srcset="
         {{ (.Resize "320x").RelPermalink }} 320w,
