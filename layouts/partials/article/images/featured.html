@@ -1,0 +1,24 @@
+{{ with .Params.images }}
+  {{ range first 1 . }}
+    {{ $src := . }}
+
+    {{ $split := split $src "/" }}
+    {{ $img := index $split (sub (len $split) 1) }}
+
+    {{ $contextStr := trim (delimit (first (sub (len $split) 1) $split) "/") "/" }}
+
+    {{ with $contextStr }}
+      {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
+    {{ else }}
+      {{ with $.Site.Data.config.imageProcessing.uploadsDir }}
+        {{ $.Scratch.Set "context" ($.Site.GetPage .) }}
+      {{ else }}
+        {{ $.Scratch.Set "context" $.Page }}
+      {{ end }}
+    {{ end }}
+
+    {{ $context := $.Scratch.Get "context" }}
+
+    {{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img) }}
+  {{ end }}
+{{ end }}
