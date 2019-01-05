@@ -4,14 +4,16 @@
   ...which probably means that the src should start with a /
 */}}
 
-{{ $images := .content | findRE "[!][[].*?[]][(]/uploads/.*?[)]" | uniq }}
+{{ $images := .content | findRE "![[].*?[]][(]/uploads/.+?(?: \".*?\")?[)]" | uniq }}
 
 {{ .context.Scratch.Set "content" .content }}
 
 {{ range $images }}
-  {{ $image := . | replaceRE "[!][[].*?[]][(]/uploads/(.*?)[)]" "$1" }}
-  {{ $regex := printf "[!][[].*?[]][(]/uploads/%s[)]" $image }}
-  {{ $.context.Scratch.Set "content" ($.context.Scratch.Get "content" | replaceRE $regex (partial "image-processing/imgproc.html" (dict "context" ($.context.Site.GetPage "uploads") "src" $image))) }}
+  {{ $image := . | replaceRE "![[].*?[]][(]/uploads/(.+?)(?: \".*?\")?[)]" "$1" }}
+  {{ $alt := . | replaceRE "![[](.*?)[]][(]/uploads/.+?(?: \".*?\")?[)]" "$1" }}
+  {{ $title := . | replaceRE "![[].*?[]][(]/uploads/.+?(?: \"(.*?)\")?[)]" "$1" | strings.TrimPrefix . }}
+  {{ $regex := printf "![[].*?[]][(]/uploads/%s(?: \".*?\")?[)]" $image }}
+  {{ $.context.Scratch.Set "content" ($.context.Scratch.Get "content" | replaceRE $regex (partial "image-processing/imgproc.html" (dict "context" ($.context.Site.GetPage "uploads") "src" $image "alt" $alt "title" $title))) }}
 {{ end }}
 
 {{ .context.Scratch.Get "content" }}

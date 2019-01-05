@@ -19,7 +19,8 @@
 
 {{ $alt := .Get "alt" }}
 {{ $caption := .Get "caption" }}
+{{ $title := .Get "title" }}
 {{ $width := .Get "width" }}
 {{ $height := .Get "height" }}
 
-{{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img "alt" $alt "caption" $caption "width" $width "height" $height) }}
+{{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img "alt" $alt "caption" $caption "title" $title "width" $width "height" $height) }}

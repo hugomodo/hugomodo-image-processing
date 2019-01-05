@@ -2,6 +2,7 @@
 
 {{ $src := .src }}
 {{ $alt := .alt }}
+{{ $title := .title }}
 {{ $caption := .caption }}
 {{ $width := .width }}
 {{ $height := .height }}
@@ -17,7 +18,8 @@
       alt="{{ with $alt }}{{ . }}{{ else }}{{ $caption | markdownify| plainify }}{{ end }}"
     {{- end -}}
     {{- with $width }} width="{{ . }}"{{ end -}}
-    {{- with $height }} height="{{ . }}"{{ end -}}/>
+    {{- with $height }} height="{{ . }}"{{ end -}}
+    {{- with $title }} title="{{ . }}"{{ end -}}/>
 {{ else -}}
   {{ with $context.Resources.GetMatch $src -}}
     <img
@@ -34,7 +36,8 @@
         alt="{{ with $alt }}{{ . }}{{ else }}{{ $caption | markdownify| plainify }}{{ end }}"
       {{- end -}}
       {{- with $width }} width="{{ . }}"{{ end -}}
-      {{- with $height }} height="{{ . }}"{{ end -}}/>
+      {{- with $height }} height="{{ . }}"{{ end -}}
+      {{- with $title }} title="{{ . }}"{{ end -}}/>
   {{ else }}
     {{ errorf "could not find image %q" $src }}
   {{ end }}
