@@ -12,7 +12,16 @@
       {{ $.Scratch.Set "content" (partial . (dict "context" $.Page "content" ($.Scratch.Get "content")) | htmlUnescape) }}
     {{ end }}
 
-    {{ .Scratch.Get "content" | markdownify }}
+    {{ if in (slice "md" "markdown" "mdown" "mmark") .File.Ext }}
+      {{ .Scratch.Get "content" | markdownify }}
+    {{ else }}
+      {{ if in (slice "html" "htm") .context.File.Ext }}
+        {{ .Scratch.Get "content" | safeHTML }}
+      {{ else }}
+        {{/* TODO: Any other content types we should check? */}}
+        {{ .Scratch.Get "content" }}
+      {{ end }}
+    {{ end }}
   {{ else }}
     {{ .Content }}
   {{ end }}
