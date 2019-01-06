@@ -15,7 +15,7 @@
     {{ if in (slice "md" "markdown" "mdown" "mmark") .File.Ext }}
       {{ .Scratch.Get "content" | markdownify }}
     {{ else }}
-      {{ if in (slice "html" "htm") .context.File.Ext }}
+      {{ if in (slice "html" "htm") .File.Ext }}
         {{ .Scratch.Get "content" | safeHTML }}
       {{ else }}
         {{/* TODO: Any other content types we should check? */}}
