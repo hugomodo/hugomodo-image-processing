@@ -103,8 +103,6 @@ It is also possible to mix the two approaches. If the `src` string passed to img
 {{</* imgproc src="/uploads/jakob-owens-212555-unsplash.jpg" */>}}
 ```
 
-{{< imgproc src="/uploads/jakob-owens-212555-unsplash.jpg" >}}
-
 ## Shortcodes
 
 ### imgproc
@@ -113,12 +111,8 @@ It is also possible to mix the two approaches. If the `src` string passed to img
 {{</* imgproc src="fabian-grohs-423591-unsplash.jpg" */>}}
 ```
 
-{{< imgproc src="fabian-grohs-423591-unsplash.jpg" >}}
-
 ### figproc
 
 ``` go-html-template
 {{</* figproc src="fabian-grohs-423591-unsplash.jpg" caption="Computer on a desk" */>}}
 ```
-
-{{< figproc src="fabian-grohs-423591-unsplash.jpg" caption="Computer on a desk" >}}
