@@ -13,7 +13,8 @@
     {{ end }}
 
     {{ if in (slice "md" "markdown" "mdown" "mmark") .File.Ext }}
-      {{ .Scratch.Get "content" | markdownify }}
+      {{ TODO: Make emojify optional, determined by enableEmoji config }}
+      {{ .Scratch.Get "content" | emojify | markdownify }}
     {{ else }}
       {{ if in (slice "html" "htm") .File.Ext }}
         {{ .Scratch.Get "content" | safeHTML }}
