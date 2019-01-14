@@ -1,3 +1,5 @@
+{{ $alt := printf "%s featured image" .Title }}
+
 {{ with .Params.images }}
   {{ range first 1 . }}
     {{ $src := . }}
@@ -19,6 +21,6 @@
 
     {{ $context := $.Scratch.Get "context" }}
 
-    {{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img) }}
+    {{ partial "image-processing/imgproc.html" (dict "context" $context "src" $img "alt" $alt) }}
   {{ end }}
 {{ end }}
