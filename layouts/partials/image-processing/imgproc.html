@@ -1,3 +1,11 @@
+{{/*
+  TODO: img sizes attribute at 100vw is inadequate, but subject to change per theme.
+  I suggest a config option configurable per theme. The consequence of this is that
+  themes are no longer agnostic to the existence of this extension.
+  NOTE: Do set a default in image-processing's own config so that it remains compatible
+  with external themes.
+*/}}
+
 {{ $context := .context }}
 
 {{ $src := .src }}
@@ -31,6 +39,7 @@
         {{ (.Resize "1366x").RelPermalink }} 1366w,
         {{ (.Resize "1600x").RelPermalink }} 1600w,
         {{ (.Resize "1920x").RelPermalink }} 1920w"
+      sizes="100vw"
       src="{{ (.Resize "1600x").RelPermalink }}"
       {{- if or ($alt) ($caption) }}
         alt="{{ with $alt }}{{ . }}{{ else }}{{ $caption | markdownify| plainify }}{{ end }}"
