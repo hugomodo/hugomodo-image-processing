@@ -1,7 +1,9 @@
 <div>
   {{ if $.Site.Data.config.imageProcessing.contentShim }}
     {{ range $.Site.Data.private }}
-      {{ $.Scratch.Add "shims" .shims }}
+      {{ with .shims }}
+        {{ $.Scratch.Add "shims" . }}
+      {{ end }}
     {{ end }}
 
     {{ $shims := uniq ($.Scratch.Get "shims") }}
