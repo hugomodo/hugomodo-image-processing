@@ -16,7 +16,7 @@ jobs:
     - stage: test
       script:
         - cd ../hugomodo/exampleSite
-        - ../bin/hugo --themesDir ../../ --theme "hugomodo-image-processing hugomodo"
+        - ../bin/hugo --themesDir ../../ --config ../../hugomodo-image-processing/exampleSite/config.toml
     - stage: deploy
       script:
         - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git

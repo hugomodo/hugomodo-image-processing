@@ -1,0 +1,15 @@
+baseurl = "https://gohugo.io/"
+title = "Hugo Themes"
+author = "Steve Francia"
+copyright = "Copyright © 2008–2018, Steve Francia and the Hugo Authors; all rights reserved."
+canonifyurls = true
+paginate = 3
+
+# NOTE: Since there appears to be no functioning way to pass multiple parameters
+# to the Hugo theme config via tha command line, an exampleSite config file
+# should be duplicated for extensions and the theme setup modified here. To execute
+# with this config, use the --config option in your build.
+theme = [
+  "hugomodo-image-processing",
+  "hugomodo"
+]
