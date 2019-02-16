@@ -8,6 +8,16 @@
 
     {{ $shims := uniq ($.Scratch.Get "shims") }}
 
+    {{/*
+      TODO: RawContent fails for section, taxonomy or taxonomyTerm pages. Consider
+            raising an issue upstream.
+            ***
+            Error: execute of template failed: panic in Execute: runtime error:
+            invalid memory address or nil pointer dereference. See
+            "https://github.com/gohugoio/hugo/issues/5327" for the reason why we
+            cannot provide a better error message for this.
+            ***
+    */}}
     {{ .Scratch.Set "content" .RawContent }}
 
     {{ range $shims }}
